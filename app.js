@@ -1,3 +1,5 @@
+// Load Environment
+
 require("dotenv").config()
 
 const express = require("express")
@@ -11,9 +13,13 @@ let todos = [
     {id : 2, task : "Build CRUD API", completed : false},
 ];
 
+// Get all todo
+
 app.get("/todos", (req, res) => {
     res.status(200).json(todos)
 })
+
+//Post (Create new todo)
 
 app.post("/todos", (req, res) => {
      // ✅ Simple manual validation
@@ -32,6 +38,8 @@ app.post("/todos", (req, res) => {
 
 })
 
+// Patch(Edit todo)
+
 app.patch("/todos/:id", (req, res) => {
     const id = parseInt(req.params.id)
     const todo = todos.find((t) => t.id === id);  // Array.find t
@@ -40,6 +48,7 @@ app.patch("/todos/:id", (req, res) => {
     res.status(200).json(todo)
 })
 
+// Delete(Delete todo)
 
 app.delete("/todos/:id", (req, res) => {
     const id = parseInt(req.params.id)
@@ -49,6 +58,8 @@ app.delete("/todos/:id", (req, res) => {
          return res.status(404).json({message : "Not found"})
     res.status(204).json({message : "Delete Sucessful"})  // Delete success
 })
+
+// Get specific todo
 
 app.get("/todos/:id", (req, res) => {
     const id = parseInt(req.params.id)
@@ -61,6 +72,8 @@ app.get("/todos/active", (req, res) => {
     const completed = todos.filter((t) => t.completed)
     res.json(completed)  // Custom Read
 })
+
+// Server Error
 
 app.use((err, req, res, next) => {
     res.status(500).json({error : "Server Error!!"})
@@ -75,4 +88,5 @@ const port = process.env.port
 
 app.listen(port, () => {
     console.log(`Running on http://localhost:${port}`)
+
 })
